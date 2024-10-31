@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: com.mycompany.task1.BankTest
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.094 s <<< FAILURE! -- in com.mycompany.task1.BankTest
+com.mycompany.task1.BankTest.testTransfer2 -- Time elapsed: 0.009 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.mycompany.task1.Bank.AccountIdException> but was: <com.mycompany.task1.Bank.InsufficientFundsException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.mycompany.task1.BankTest.testTransfer2(BankTest.java:176)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: com.mycompany.task1.Bank$InsufficientFundsException
+	at com.mycompany.task1.BankImpl.transfer(BankImpl.java:101)
+	at com.mycompany.task1.BankTest.lambda$testTransfer2$4(BankTest.java:181)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+

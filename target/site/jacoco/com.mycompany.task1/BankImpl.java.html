@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BankImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">task1</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.task1</a> &gt; <span class="el_source">BankImpl.java</span></div><h1>BankImpl.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mycompany.task1;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Mehmet Turan Yardımcı
+ */
+<span class="fc" id="L14">public class BankImpl implements Bank {</span>
+    
+<span class="fc" id="L16">    private List&lt;Account&gt; accounts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">    private long idgen = 0;</span>
+    private long nextId() {
+<span class="fc" id="L19">        return ++idgen;</span>
+    }
+
+    @Override
+    public Long createAccount(String name, String address) {
+<span class="fc" id="L24">        Account account = findAccountObj(name, address);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (account == null) {</span>
+<span class="fc" id="L26">            account = new Account(nextId(), name, address);</span>
+<span class="fc" id="L27">            accounts.add(account);</span>
+        }
+<span class="fc" id="L29">        return account.getId();</span>
+    }
+    
+    private Account findAccountObj(String name, String address) {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (Account account:accounts) {</span>
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">            if (account.getName().equals(name) &amp;&amp; account.getAddress().equals(address)) {</span>
+<span class="fc" id="L35">                return account;</span>
+            }
+<span class="fc" id="L37">        }</span>
+<span class="fc" id="L38">        return null;</span>
+    }
+    
+     private Account findAccountObj(Long id) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (Account account:accounts) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (account.getId().equals(id)) {</span>
+<span class="fc" id="L44">                return account;</span>
+            }
+<span class="fc" id="L46">        }</span>
+<span class="fc" id="L47">        return null;</span>
+    }
+
+    @Override
+    public Long findAccount(String name, String address) {
+<span class="fc" id="L52">        Account a = findAccountObj(name, address);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        return a != null ? a.getId() : null;</span>
+    }
+
+    @Override
+    public void deposit(Long id, BigDecimal amount) {
+<span class="fc" id="L58">        Account a = findAccountObj(id);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (a == null)</span>
+<span class="fc" id="L60">            throw new AccountIdException();</span>
+       
+<span class="fc" id="L62">        BigDecimal currentBalance = a.getBalance();</span>
+<span class="fc" id="L63">        a.setBalance(currentBalance.add(amount));                </span>
+<span class="fc" id="L64">    }</span>
+
+    @Override
+    public BigDecimal getBalance(Long id) {
+<span class="fc" id="L68">        Account a = findAccountObj(id);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (a == null)</span>
+<span class="fc" id="L70">            throw new AccountIdException();</span>
+        
+<span class="fc" id="L72">        return a.getBalance();  </span>
+    }
+
+    @Override
+    public void withdraw(Long id, BigDecimal amount) {
+        //TODO: implement withdraw operation
+
+<span class="fc" id="L79">        Account a = findAccountObj(id);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (a == null)</span>
+<span class="fc" id="L81">            throw new AccountIdException();</span>
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (0 &gt; a.getBalance().compareTo(amount))</span>
+<span class="fc" id="L84">            throw new InsufficientFundsException();</span>
+
+<span class="fc" id="L86">        BigDecimal currentBalance = a.getBalance();</span>
+<span class="fc" id="L87">        a.setBalance(currentBalance.subtract(amount));</span>
+<span class="fc" id="L88">    }</span>
+
+    @Override
+    public void transfer(Long idSource, Long idDestination, BigDecimal amount) {
+        //TODO: implement transfer operation
+
+<span class="fc" id="L94">        Account Source = findAccountObj(idSource);</span>
+<span class="fc" id="L95">        Account Destination = findAccountObj(idDestination);</span>
+
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        if (Source == null || Destination == null)</span>
+<span class="fc" id="L98">            throw new AccountIdException();</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (0 &gt; Source.getBalance().compareTo(amount))</span>
+<span class="fc" id="L101">            throw new InsufficientFundsException();</span>
+
+<span class="fc" id="L103">        BigDecimal SourceBalance = Source.getBalance();</span>
+<span class="fc" id="L104">        Source.setBalance(SourceBalance.subtract(amount));</span>
+
+<span class="fc" id="L106">        BigDecimal DestinationBalance = Destination.getBalance();</span>
+<span class="fc" id="L107">        Destination.setBalance(DestinationBalance.add(amount));</span>
+<span class="fc" id="L108">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
